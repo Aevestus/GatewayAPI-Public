@@ -57,15 +57,13 @@ The following extra features have been added:
 
 
 
-								Running the API's and the client app'
-================================================================================================================================================================
+# Running the API's and the client app'
 	
-	1. Set the solution to have multiple startup projects, and select both the Gateway.API (runs on http://localhost:54176) and Gateway.MockBank (runs on http://localhost:32771) as startup projects.
+	1. Set the solution to have multiple startup projects, and select both the Gateway.API 
+	(runs on http://localhost:54176) and Gateway.MockBank (runs on http://localhost:32771) as startup projects.
 	2. Run the solution. 
 	3. Open VS Code, and open folder: GatewayFrontEnd.
 	4. In a terminal window, run: ng serve (when the build is done, the client app will run on http://localhost:4200)
-
-===============================================================================================================================================================
 
 # Gateway.API Containerization, Prometheus and Grafana (for metrics):
 To build and run the project as a container, you need to have Docker and Docker Compose installed. 
@@ -89,13 +87,15 @@ to the following local URL's:
 	When you are done testing, remove the images and stop them from executing by running "docker-compose down"
 
 
-							SQL Server Database prerequisites for running the project;
-================================================================================================================================================================
+ # SQL Server Database prerequisites for running the project;
 
-	SQL Server should be configured to allow TCP/IP connections, and the firewall should allow connections through the port SQL Server uses. (default is 1433)
+	SQL Server should be configured to allow TCP/IP connection.
+	
+	The firewall should allow connections through the port SQL Server uses. (default is 1433)
 
-Make sure the connection strings (all of them) in appsettings.json in Gateway.API, are updated with corresponding IP/Port number for your instance of SQL Server,
-on the environment you are running the app on, before executing the following steps: 
+	Make sure the connection strings (all of them) in appsettings.json in Gateway.API, 
+	are updated with corresponding IP/Port number for your instance of SQL Server,
+	on the environment you are running the app on, before executing the following steps: 
 
 	1. Create the application user in SQL server, and grant permissions to be able to create any database:
 	In SQL Server run the following T-SQL statement (you can use Sql Server Management Studio for this):
@@ -107,8 +107,10 @@ on the environment you are running the app on, before executing the following st
 		use master; 
 		GRANT CREATE ANY DATABASE to gatewayapi_DbUser
 
-	2. In Visual Studio, open Package Manager Console and run the EF core database creation/update commands to create the databases (GatewayAuthDb and GatewayDataDb):
-	 (if you don't already have Entity Framework Core tools, .Net CLI installed, run "dotnet tool install --global dotnet-ef" first, to install them globally. Otherwise the following commands won't work.)
+	2. In Visual Studio, open Package Manager Console and run the EF core database 
+	creation/update commands to create the databases (GatewayAuthDb and GatewayDataDb):
+	 (if you don't already have Entity Framework Core tools, .Net CLI installed, 
+	 run "dotnet tool install --global dotnet-ef" first, to install them globally. Otherwise the following commands won't work.)
 		
 		Create/Update the AuthDb:
 		dotnet ef database update --project Gateway.API --context ApplicationDbContext
