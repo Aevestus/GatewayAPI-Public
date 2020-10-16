@@ -1,60 +1,62 @@
 # Dev Readme
 
 The deliverables are the two API projects: 
-	1. Gateway.API			- the API that processes merchant transactions
-	2. Gateway.MockBank		- the mocked acquiring bank
+  1. Gateway.API - the API that processes merchant transactions
+  2. Gateway.MockBank - the mocked acquiring bank
 
 
 The following extra features have been added:
-	•  Application logging - done using Serilog for .Net Core
-		- serilog is added as middleware to the project, configured in Program.cs, using the settings from appsettings.json in Gateway.API project
-		- the logs are stored in a table (called Logs), in the GatewayDataDb database. The table is created automatically if it doesn't exist.
-		- all exceptions are logged there, as well as some warnings in some cases, during the execution of the code.
+  •  Application logging - done using Serilog for .Net Core
+    - serilog is added as middleware to the project, configured in Program.cs, 
+    using the settings from appsettings.json in Gateway.API project
+    - the logs are stored in a table (called Logs), in the GatewayDataDb database.  
+    The table is created automatically if it doesn't exist.
+    - all exceptions are logged there, as well as some warnings in some cases, during the execution of the code.
 	
-	•  Application metrics	- done using Prometheus for metrics collection and Grafana for data presentation.
-		- for this, I have also used docker-compose, in order to create the 4 needed images that run on the same network.
-		- due to time constraints, the Gateway.MockBank has not been containerized, thus running transactions when the app is build using docker-compose
-		 will not work.
+  •  Application metrics - done using Prometheus for metrics collection and Grafana for data presentation.
+    - for this, I have also used docker-compose, in order to create the 4 needed images that run on the same network.
+    - due to time constraints, the Gateway.MockBank has not been containerized, 
+    thus running transactions when the app is build using docker-compose will not work.
 	
-	•  Containerization - done using Docker. To build the docker image, right click the Dockerfile from Gateway.API folder, and click Build Docker Image.
-		- the Gateway.API image will be called "gatewayapi"
-		- the Gateway.MockBank image, will be called "gateway-mockbank"
+  •  Containerization 
+    - done using Docker. To build the docker image, right click the Dockerfile from Gateway.API folder, and click Build Docker Image.
+    - the Gateway.API image will be called "gatewayapi"
+    - the Gateway.MockBank image, will be called "gateway-mockbank"
 
-	•  Authentication - done using the .Net Core built in mechanism
+  •  Authentication - done using the .Net Core built in mechanism
 	
-	•  API client - done using an Angular client app, to simulate the merchant, and allow for user registration/login
-		- also added a dashboard, inside the Angular app, where the merchant can see all of his transactions	
+  •  API client - done using an Angular client app, to simulate the merchant, and allow for user registration/login
+    - also added a dashboard, inside the Angular app, where the merchant can see all of his transactions	
 	
-	•  Performance testing - done using JMeter
+  •  Performance testing - done using JMeter
+
+  •  Unit Testing - done using MSTest and Moq. Given the time constraints, test coverage is not 100%.
 	
-	•  Unit Testing	- done using MSTest and Moq. Given the time constraints, test coverage is not 100%.
+  •  Data storage- SQL Server database, relational DB
+
+  •  Encryption 
+    - not done due to time constraints. 
+    - It can be done using the Always Encrypted feature of SQL Server, and the keys could be stored in a safe vault, such as Azure Key Vault.
+    - .Net core provides a package that integrates with Entity Framework Core and Azure Key Vault, enabling us to configure EF Core 
+    to retrive a key safely from an Azure Key Vault, in order to perform encryption/decryption of data going in and out of SQL server.
 	
-	•  Data storage	- SQL Server database, relational DB
+  •  Build script / CI 
 
-	•  Encryption 
-		- not done due to time constraints. 
-		- It can be done using the Always Encrypted feature of SQL Server, and the keys could be stored in a safe vault, such as Azure Key Vault.
-		- .Net core provides a package that integrates with Entity Framework Core and Azure Key Vault, enabling us to configure EF Core 
-		to retrive a key safely from an Azure Key Vault, in order to perform encryption/decryption of data going in and out of SQL server.
-	
-	•  Build script / CI 
+  In the main folder of the solution, a postman collection of requests has been added, for easier testing of the API and also the JMeter tests.
 
-	In the main folder of the solution, a postman collection of requests has been added, for easier testing of the API and also the JMeter tests.
-
-
-	Tools used for development:
-		1. SQL Server 2016 
-		2. Sql Management Studio v 18.1
-		3. Visual Studio 2019 
-		4. VS Code
-		5. Entity Framework Core tools
-		6. Docker Desktop
-		7. Git
-		8. Postman
-		9. JMeter
+  Tools used for development:
+    1. SQL Server 2016 
+    2. Sql Management Studio v 18.1
+    3. Visual Studio 2019 
+    4. VS Code
+    5. Entity Framework Core tools
+    6. Docker Desktop
+    7. Git
+    8. Postman
+    9. JMeter
 
 
-===============================================================================================================================================================
+
 								Running the API's and the client app'
 ================================================================================================================================================================
 	
@@ -78,12 +80,15 @@ to the following local URL's:
 	http://localhost:3000/ - Grafana's will run
 	- login credentials for Grafana: admin/P@ssw0rd (also configured in the docker-compose.yml)
 
-	For the first time when running it, for Grafana, a datasource needs to be created, that points to Prometheus (http://localhost:9090/) 
-	and the dashboard needs to be configured. A preset dashboard can be imported and used from Graphana Dashboards Online, ex: https://grafana.com/grafana/dashboards/10427
+	For the first time when running it, for Grafana, a datasource needs to be created, 
+	that points to Prometheus (http://localhost:9090/) 
+	
+	and the dashboard needs to be configured. A preset dashboard can be imported and used 
+	from Graphana Dashboards Online, ex: https://grafana.com/grafana/dashboards/10427
 
 	When you are done testing, remove the images and stop them from executing by running "docker-compose down"
 
-===============================================================================================================================================================
+
 							SQL Server Database prerequisites for running the project;
 ================================================================================================================================================================
 
